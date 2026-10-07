@@ -179,40 +179,6 @@
       points.appendChild(it);
     });
     grid.appendChild(points);
-
-    var card = node("article", "profile-card");
-    var c = d.card || {};
-
-    var top = node("div", "profile-card__top");
-    top.appendChild(text("div", "avatar", c.initial || "·"));
-    var who = node("div");
-    who.appendChild(text("div", "profile-card__name", c.name || ""));
-    who.appendChild(text("div", "profile-card__role", c.role || ""));
-    if (c.location) who.appendChild(text("div", "profile-card__loc", c.location));
-    top.appendChild(who);
-    card.appendChild(top);
-
-    card.appendChild(node("div", "divider"));
-    if (c.intro) card.appendChild(text("p", "profile-card__intro", c.intro));
-
-    if (c.tags && c.tags.length) {
-      var chips = node("div", "chips");
-      c.tags.forEach(function (t) { chips.appendChild(text("span", "chip", t)); });
-      card.appendChild(chips);
-    }
-
-    if (c.meta && c.meta.length) {
-      var list = node("div", "meta-list");
-      c.meta.forEach(function (m) {
-        var row = node("div", "meta");
-        row.appendChild(text("span", "meta__k", m.k));
-        row.appendChild(text("span", "meta__v", m.v));
-        list.appendChild(row);
-      });
-      card.appendChild(list);
-    }
-
-    grid.appendChild(card);
     inner.appendChild(grid);
     mount("about", [inner]);
   }
