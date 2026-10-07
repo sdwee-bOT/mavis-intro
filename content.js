@@ -131,11 +131,11 @@ window.SITE_CONTENT = {
     title: "我的爱好",
     placeholder: "平时喜欢打游戏，打篮球，旅游，拍照记录生活",
     items: [
-      { src: "images/image1.jpg", alt: "A chrome sculpture", title: "杭州" },
-      { src: "images/image2.jpg", alt: "A figure on a white set", title: "杭州" },
-      { src: "images/122 (1).jpg", alt: "A clay bust in profile", title: "苏州"},
-      { src: "images/123 (4).jpg", alt: "A clay bust in profile", title: "苏州"},
-      { src: "images/122 (3).jpg", alt: "aaa", title: "苏州"}
+      { src: "images/hobby1.jpg", alt: "A chrome sculpture", title: "杭州" },
+      { src: "images/hobby2.jpg", alt: "A figure on a white set", title: "杭州" },
+      { src: "images/hobby3.jpg", alt: "A clay bust in profile", title: "苏州" },
+      { src: "images/hobby4.jpg", alt: "A clay bust in profile", title: "苏州" },
+      { src: "images/hobby5.jpg", alt: "aaa", title: "苏州" }
 
 
       
