@@ -226,14 +226,14 @@ img{display:block;max-width:100%}
 
 /* ============ 自我介绍模块 ============ */
 .about__grid{
-  display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+  display:grid;grid-template-columns:minmax(0,1fr);
   gap:clamp(32px,4vw,64px);align-items:start;
 }
 .about__points{display:grid;gap:28px}
 .point{display:grid;grid-template-columns:auto 1fr;gap:18px}
 .point__no{font-family:var(--font-mono);font-size:12px;color:var(--accent);padding-top:5px;letter-spacing:.1em}
-.point__title{font-size:16.5px;font-weight:650}
-.point__text{color:var(--muted);font-size:14.5px;margin-top:7px}
+.point__title{font-size:18.5px;font-weight:650}
+.point__text{color:var(--muted);font-size:16.5px;margin-top:7px}
 
 .profile-card{
   position:relative;border:1px solid var(--line);border-radius:var(--radius-lg);
@@ -284,10 +284,10 @@ img{display:block;max-width:100%}
 .s-card:hover{transform:translateY(-5px);border-color:var(--line-strong);box-shadow:0 26px 60px rgba(0,0,0,.5)}
 .s-card:hover::before{opacity:1}
 .s-card__no{font-family:var(--font-mono);font-size:12px;color:var(--accent);letter-spacing:.16em}
-.s-card__title{font-size:17px;font-weight:650;letter-spacing:-.01em;margin-top:10px}
+.s-card__title{font-size:19px;font-weight:650;letter-spacing:-.01em;margin-top:10px}
 .s-card__sum{color:var(--muted);font-size:14.5px;margin-top:10px}
 .s-rows{display:grid;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
-.s-row{display:grid;grid-template-columns:88px 1fr;gap:12px;font-size:13px}
+.s-row{display:grid;grid-template-columns:88px 1fr;gap:12px;font-size:15px}
 .s-row__k{font-size:12px;color:var(--muted-2);padding-top:2px}
 .s-row__v{color:var(--text);opacity:.92}
 
