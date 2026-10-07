@@ -797,6 +797,7 @@ const FlexCarousel = ({
         aspect: 0.8,
         loaded: false,
         failed: false,
+        retried: false,
         ready: 0,
         color: [0.5, 0.5, 0.5],
         image: [1, 1],
@@ -805,10 +806,8 @@ const FlexCarousel = ({
       const image = new Image();
       image.crossOrigin = 'anonymous';
       image.decoding = 'async';
-      image.onload = () => {
-        if (!alive || !slots.includes(slot)) return;
-        texture.image = image;
-        texture.update();
+      const finishLoad = () => {
+        if (!alive || !slots.includes(slot) || slot.loaded) return;
         slot.image = [image.naturalWidth || 1, image.naturalHeight || 1];
         slot.aspect = slot.image[0] / slot.image[1];
         try {
@@ -836,21 +835,54 @@ const FlexCarousel = ({
         dirty = true;
         start();
       };
+      const uploadTexture = () => {
+        texture.image = image;
+        texture.update();
+        finishLoad();
+      };
+      image.onload = () => {
+        if (!alive || !slots.includes(slot)) return;
+        try {
+          uploadTexture();
+        } catch (err) {
+          // 纹理上传失败：延迟重试一次，避免永久灰色占位
+          setTimeout(() => {
+            if (!alive || !slots.includes(slot) || slot.loaded) return;
+            try {
+              uploadTexture();
+            } catch (_) {
+              slot.failed = true;
+              dirty = true;
+              start();
+            }
+          }, 250);
+        }
+      };
       image.onerror = () => {
         if (!alive) return;
         slot.failed = true;
         dirty = true;
         start();
       };
-      const startLoad = () => {
+      // 立即发起加载：图片下载为异步过程，不会阻塞首帧渲染。
+      // 不使用 requestIdleCallback 懒调度——WebGL 动画持续占用事件循环时，
+      // 个别卡片的空闲回调可能迟迟不执行，导致该图始终未发起请求（hobby4 灰块）。
+      image.src = item.src;
+      // 加载超时兜底：12s 内既未 onload 也未 onerror（请求丢失/解码挂起等极端情况），
+      // 重新赋 src 重试一次；仍失败则标记 failed，由占位逻辑兜底。
+      const loadTimer = setTimeout(() => {
+        if (!alive || !slots.includes(slot) || slot.loaded || slot.failed) return;
+        if (slot.retried) {
+          slot.failed = true;
+          dirty = true;
+          start();
+          return;
+        }
+        slot.retried = true;
         image.src = item.src;
-      };
-      if (typeof requestIdleCallback === 'function') {
-        requestIdleCallback(startLoad, { timeout: 800 });
-      } else {
-        setTimeout(startLoad, 300);
-      }
+      }, 12000);
       slot.dispose = () => {
+        clearTimeout(loadTimer);
         image.onload = null;
         image.onerror = null;
         gl.deleteTexture(texture.texture);
